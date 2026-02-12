@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espada Bíblica - Célula #6 - IBBI </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(19, 37, 172, 0.7) 100%),
+                url('celula.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+    /* Setup de participantes */
+    .setup-section {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .setup-section h2 {
+        text-align: center;
+        color: #667eea;
+        margin-bottom: 20px;
+    }
+
+    .participant-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .participant-form input {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        font-size: 1em;
+    }
+
+    .participant-form button {
+        padding: 12px 25px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .participant-form button:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+    }
+
+    .participants-list {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .participant-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: white;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .participant-item .name {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .participant-item .remove-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+
+    .participant-item .remove-btn:hover {
+        background: #c82333;
+    }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #b3a522 0%, #e5d11a 50%, #e6d21b 100%);
+            padding: 15px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .banner h2 {
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3),
+                         -1px -1px 2px rgba(255,255,255,0.3);
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .banner-decoration {
+            position: absolute;
+            font-size: 3em;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .banner-decoration.left {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .banner-decoration.right {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            z-index: 10;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+.header {
+    position: relative;
+}
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .theme-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .theme-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(49, 82, 229, 0.6);
+        }
+
+        /* Área de juego */
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .main-game {
+            min-width: 0;
+        }
+
+        .progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .progress-info 
+
+        .verse-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verse-card::before {
+            content: '📖';
+            position: absolute;
+            font-size: 15em;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .verse-reference {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .verse-instruction {
+            font-size: 1.3em;
+            opacity: 0.95;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        /* Tabla de puntuación */
+        .scoreboard {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .scoreboard h3 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .score-table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .score-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+            align-items: center;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+        }
+
+        .score-row.header {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .score-row:not(.header):hover {
+            background: #f8f9fa;
+        }
+
+        .score-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .score-points {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .points-badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .add-point-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .add-point-btn:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .winner-badge {
+            background: #FFD700;
+            color: #333;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .button-success {
+            background: #142da5;
+        }
+
+        .button-success:hover {
+            background: #2e08b54b;
+        }
+
+        /* Estilos para completación */
+        .final-scores {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .podium {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .podium-place {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .podium-place.first {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            transform: scale(1.1);
+        }
+
+        .podium-place.second {
+            background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+        }
+
+        .podium-place.third {
+            background: linear-gradient(135deg, #CD7F32, #B8732D);
+        }
+
+        .podium-place .medal {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .podium-place .name {
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 5px;
+        }
+
+        .podium-place .points {
+            font-size: 1.2em;
+            color: white;
+            font-weight: bold;
+        }
+        .button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .button-secondary {
+            background: #6c757d;
+        }
+
+        .button-secondary:hover {
+            background: #5a6268;
+        }
+
+        .completion {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .completion.active {
+            display: block;
+        }
+
+        .completion h2 {
+            font-size: 2.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .completion p {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stats p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .banner h2 {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+            }
+
+            .banner-decoration {
+                font-size: 2em;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .verse-reference {
+                font-size: 2em;
+            }
+
+            .verse-instruction {
+                font-size: 1.1em;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <span class="banner-decoration left">✨</span>
+            <h2> Célula #6 </h2>
+            <span class="banner-decoration right">✨</span>
+        </div>
+
+       <div class="header">
+            <img src="ibbi.jpg" alt="Logo" class="header-logo">
+            <h1>Espada Bíblica </h1>
+            <p>Encuentra los versículos en tu Biblia física</p>
+         </div>
+
+        <div class="content">
+    <!-- Setup de participantes -->
+            <div id="setupSection" class="setup-section">
+                <h2>👥 Registrar Participantes</h2>
+                <div class="participant-form">
+                    <input type="text" id="participantName" placeholder="Nombre del participante" maxlength="30">
+                    <button onclick="addParticipant()">➕ Agregar</button>
+                </div>
+                <div class="participants-list" id="participantsList">
+                    <p style="text-align: center; color: #666;">Agrega participantes para comenzar</p>
+                </div>
+                <div class="controls">
+                    <button class="button button-success" onclick="goToThemeSelection()" id="startGameBtn" disabled>
+                        🎮 Comenzar Juego
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menú de temas -->
+            <div id="menuSection" class="menu-section" style="display: none;">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #667eea; font-size: 2em;">
+                    Selecciona un Tema
+                </h2>
+                <div class="menu" id="themeMenu"></div>
+            </div>
+
+            <!-- Área de juego -->
+            <div id="gameSection" class="game-area">
+                <div class="game-container">
+                    <div class="main-game">
+                        <div class="progress">
+                            <div class="progress-info">
+                                <span id="currentTheme"></span>
+                            </div>
+                            <div class="progress-info">
+                                Versículo <span id="currentVerse">1</span> de <span id="totalVerses">10</span>
+                            </div>
+                        </div>
+
+                        <div class="verse-card">
+                            <div class="verse-reference" id="verseReference"></div>
+                            <div class="verse-instruction">
+                                📖 Busca este versículo en tu Biblia física<br>
+                                <small style="font-size: 0.8em; opacity: 0.8;"> A ver quien busca más rápido </small>
+                            </div>
+                        </div>
+
+                        <div class="controls">
+                            <button class="button" onclick="nextVerse()">
+                                ➡️ Siguiente Versículo
+                            </button>
+                            <button class="button button-secondary" onclick="backToMenu()">
+                                ← Volver al Menú
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="scoreboard">
+                        <h3>🏆 Puntuación</h3>
+                        <div class="score-table" id="scoreTable"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pantalla de completación -->
+            <div id="completionSection" class="completion">
+                <h2>🎉 ¡Tema Completado!</h2>
+                <p>Excelente trabajo buscando los versículos</p>
+                
+                <div class="final-scores">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">🏆 Podio Final</h3>
+                    <div class="podium" id="podium"></div>
+                    <div id="allScores"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="button" onclick="backToMenu()">
+                        🏠 Volver al Menú
+                    </button>
+                    <button class="button button-secondary" onclick="resetGame()">
+                        🔄 Nuevo Juego
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        const versiculosPorTema = {
+            "Amor de Dios": [
+                "Juan 3:16",
+                "Romanos 5:8",
+                "1 Juan 4:8",
+                "Jeremías 31:3",
+                "Salmos 136:26",
+                "Efesios 2:4-5",
+                "Juan 15:9",
+                "Romanos 8:39"
+            ],
+            "Fe y Confianza": [
+                "Hebreos 11:1",
+                "Proverbios 3:5-6",
+                "Mateo 17:20",
+                "2 Corintios 5:7",
+                "Romanos 10:17",
+                "Santiago 1:6",
+                "Marcos 11:22",
+                "Habacuc 2:4"
+            ],
+            "Esperanza": [
+                "Jeremías 29:11",
+                "Romanos 15:13",
+                "Salmos 42:5",
+                "Hebreos 6:19",
+                "Lamentaciones 3:22-23",
+                "Romanos 5:5",
+                "1 Pedro 1:3",
+                "Salmos 130:5"
+            ],
+            "Paz": [
+                "Filipenses 4:6-7",
+                "Juan 14:27",
+                "Isaías 26:3",
+                "Colosenses 3:15",
+                "Salmos 29:11",
+                "Juan 16:33",
+                "Romanos 5:1",
+                "2 Tesalonicenses 3:16"
+            ],
+            "Fortaleza": [
+                "Filipenses 4:13",
+                "Isaías 40:31",
+                "Salmos 46:1",
+                "2 Corintios 12:9",
+                "Josué 1:9",
+                "Nehemías 8:10",
+                "Salmos 27:1",
+                "Isaías 41:10"
+            ],
+            "Salvación": [
+                "Hechos 4:12",
+                "Romanos 10:9",
+                "Efesios 2:8-9",
+                "Juan 14:6",
+                "Tito 3:5",
+                "1 Juan 5:11-12",
+                "Romanos 6:23",
+                "Juan 3:36"
+            ],
+            "Sabiduría": [
+                "Proverbios 2:6",
+                "Santiago 1:5",
+                "Proverbios 4:7",
+                "Eclesiastés 7:12",
+                "Proverbios 9:10",
+                "Colosenses 2:3",
+                "Proverbios 16:16",
+                "Santiago 3:17"
+            ],
+            "Oración": [
+                "Mateo 6:6",
+                "Filipenses 4:6",
+                "1 Tesalonicenses 5:17",
+                "Lucas 11:9",
+                "Santiago 5:16",
+                "Mateo 21:22",
+                "Jeremías 33:3",
+                "1 Juan 5:14"
+            ]
+        };
+
+        let participants = [];
+        let currentTheme = "";
+        let currentVerses = [];
+        let currentIndex = 0;
+
+        // Funciones de participantes
+        function addParticipant() {
+            const input = document.getElementById('participantName');
+            const name = input.value.trim();
+            
+            if (name === '') {
+                alert('Por favor ingresa un nombre');
+                return;
+            }
+
+            if (participants.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este participante ya está registrado');
+                return;
+            }
+
+            participants.push({ name: name, points: 0 });
+            input.value = '';
+            updateParticipantsList();
+            updateStartButton();
+        }
+
+        function removeParticipant(index) {
+            participants.splice(index, 1);
+            updateParticipantsList();
+            updateStartButton();
+        }
+
+        function updateParticipantsList() {
+            const list = document.getElementById('participantsList');
+            
+            if (participants.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #666;">Agrega participantes para comenzar</p>';
+                return;
+            }
+
+            list.innerHTML = participants.map((p, index) => `
+                <div class="participant-item">
+                    <span class="name">${p.name}</span>
+                    <button class="remove-btn" onclick="removeParticipant(${index})">✕ Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        function updateStartButton() {
+            const btn = document.getElementById('startGameBtn');
+            btn.disabled = participants.length === 0;
+        }
+
+        function goToThemeSelection() {
+            if (participants.length === 0) {
+                alert('Debes agregar al menos un participante');
+                return;
+            }
+
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('menuSection').style.display = 'block';
+            initializeThemeMenu();
+        }
+
+        // Funciones del juego
+        function initializeThemeMenu() {
+            const menuDiv = document.getElementById('themeMenu');
+            menuDiv.innerHTML = '';
+            
+            for (const theme in versiculosPorTema) {
+                const button = document.createElement('button');
+                button.className = 'theme-button';
+                button.textContent = theme;
+                button.onclick = () => startTheme(theme);
+                menuDiv.appendChild(button);
+            }
+        }
+
+        function startTheme(theme) {
+            currentTheme = theme;
+            currentVerses = [...versiculosPorTema[theme]];
+            currentIndex = 0;
+
+            document.getElementById('menuSection').style.display = 'none';
+            document.getElementById('gameSection').classList.add('active');
+            document.getElementById('completionSection').classList.remove('active');
+
+            document.getElementById('currentTheme').textContent = theme;
+            document.getElementById('totalVerses').textContent = currentVerses.length;
+
+            updateScoreTable();
+            showCurrentVerse();
+        }
+
+        function showCurrentVerse() {
+            if (currentIndex < currentVerses.length) {
+                document.getElementById('verseReference').textContent = currentVerses[currentIndex];
+                document.getElementById('currentVerse').textContent = currentIndex + 1;
+            }
+        }
+
+        function addPoint(participantIndex) {
+            participants[participantIndex].points++;
+            updateScoreTable();
+        }
+
+        function updateScoreTable() {
+            const table = document.getElementById('scoreTable');
+            
+            // Ordenar participantes por puntos (de mayor a menor)
+            const sortedParticipants = [...participants].sort((a, b) => b.points - a.points);
+            const maxPoints = sortedParticipants[0]?.points || 0;
+
+            let html = `
+                <div class="score-row header">
+                    <div>Participante</div>
+                    <div>Puntos</div>
+                </div>
+            `;
+
+            sortedParticipants.forEach((participant, index) => {
+                const originalIndex = participants.findIndex(p => p.name === participant.name);
+                const isWinner = participant.points === maxPoints && maxPoints > 0;
+                
+                html += `
+                    <div class="score-row">
+                        <div class="score-name">
+                            ${participant.name}
+                            ${isWinner ? '<span class="winner-badge">👑</span>' : ''}
+                        </div>
+                        <div class="score-points">
+                            <span class="points-badge">${participant.points}</span>
+                            <button class="add-point-btn" onclick="addPoint(${originalIndex})">+1</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            table.innerHTML = html;
+        }
+
+        function nextVerse() {
+            currentIndex++;
+
+            if (currentIndex < currentVerses.length) {
+                showCurrentVerse();
+            } else {
+                showCompletion();
+            }
+        }
+
+        function showCompletion() {
+            document.getElementById('gameSection').classList.remove('active');
+            document.getElementById('completionSection').classList.add('active');
+            
+            // Mostrar podio
+            const sortedParticipants = [...participants].sort((a, b) => b.points - a.points);
+            const podiumDiv = document.getElementById('podium');
+            
+            let podiumHTML = '';
+            const medals = ['🥇', '🥈', '🥉'];
+            const classes = ['first', 'second', 'third'];
+            
+            for (let i = 0; i < Math.min(3, sortedParticipants.length); i++) {
+                podiumHTML += `
+                    <div class="podium-place ${classes[i]}">
+                        <div class="medal">${medals[i]}</div>
+                        <div class="name">${sortedParticipants[i].name}</div>
+                        <div class="points">${sortedParticipants[i].points} puntos</div>
+                    </div>
+                `;
+            }
+            
+            podiumDiv.innerHTML = podiumHTML;
+
+            // Mostrar todos los puntajes
+            const allScoresDiv = document.getElementById('allScores');
+            let scoresHTML = '<div style="margin-top: 20px;">';
+            
+            if (sortedParticipants.length > 3) {
+                scoresHTML += '<h4 style="color: #667eea; margin-bottom: 10px;">Otros participantes:</h4>';
+                for (let i = 3; i < sortedParticipants.length; i++) {
+                    scoresHTML += `
+                        <div style="padding: 10px; background: white; margin-bottom: 5px; border-radius: 5px; display: flex; justify-content: space-between;">
+                            <span><strong>${i + 1}.</strong> ${sortedParticipants[i].name}</span>
+                            <span><strong>${sortedParticipants[i].points}</strong> puntos</span>
+                        </div>
+                    `;
+                }
+            }
+            
+            scoresHTML += '</div>';
+            allScoresDiv.innerHTML = scoresHTML;
+        }
+
+        function backToMenu() {
+            document.getElementById('menuSection').style.display = 'block';
+            document.getElementById('gameSection').classList.remove('active');
+            document.getElementById('completionSection').classList.remove('active');
+        }
+
+        function resetGame() {
+            // Reiniciar puntos
+            participants.forEach(p => p.points = 0);
+            
+            // Volver al menú de temas
+            document.getElementById('completionSection').classList.remove('active');
+            document.getElementById('menuSection').style.display = 'block';
+            
+            updateScoreTable();
+        }
+
+        // Permitir agregar participante con Enter
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('participantName');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addParticipant();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
